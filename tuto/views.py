@@ -30,12 +30,16 @@ class loginFrom(FlaskForm):
 class AuthorForm(FlaskForm):
     id = HiddenField('id')
     name = StringField('Nom', validators=[DataRequired()])
+    
+class AuthorAddForm(FlaskForm):
+    id = None
+    name = StringField('Nom', validators=[DataRequired()])
 
 @app.route ("/")
 def home():
     return render_template(
         "home.html",
-        title="Site Livres",
+        title="Bibliothèque",
         books=get_sample())
     
     
@@ -87,6 +91,21 @@ def save_author():
             "edit-author.html",
             author =a, form=f)
         
+@app.route("/new/author/", methods =("POST" ,))
+def new_author():
+        a = None
+        f = AuthorAddForm()
+        if f.validate_on_submit():
+            id = int(f.id.data)
+            a = get_author(id)
+            a.name = f.name.data
+            db.session.commit()
+            return redirect(url_for('sample', id=a.id))
+        a = get_author(int(f.id.data))
+        return render_template(
+            "edit-author.html",
+            author =a, form=f)
+        
 @app.route("/login/",methods=("GET","POST" ,))
 def login():
     f = loginFrom()
@@ -105,3 +124,5 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+# denys baz

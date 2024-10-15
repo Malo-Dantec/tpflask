@@ -18,6 +18,6 @@ def mkpath (p):
     
 from flask_sqlalchemy import SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = ('sqlite:///'+mkpath('../tuto.db'))
+app.config['SECRET_KEY'] = "3d22093e-231a-4f4a-ad9b-4d8fdf8500d7"
 db = SQLAlchemy(app)
 
-app.config['SECRET_KEY'] = "4eb66f79-31bf-46aa-9158-c7f4530178f4"
