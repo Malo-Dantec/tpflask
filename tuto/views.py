@@ -35,7 +35,7 @@ class AuthorForm(FlaskForm):
 def home():
     return render_template(
         "home.html",
-        title="Hello World",
+        title="Site Livres",
         books=get_sample())
     
     
@@ -105,5 +105,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
-
-# denys baz
