@@ -45,3 +45,4 @@ def get_sample():
 
 def get_author(id):
     return Author.query.get(id)  # Utilisez .get() pour obtenir l'auteur par son ID
+

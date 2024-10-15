@@ -35,7 +35,7 @@ class AuthorForm(FlaskForm):
 def home():
     return render_template(
         "home.html",
-        title="Hello World",
+        title="Bibliothèque",
         books=get_sample())
     
     
