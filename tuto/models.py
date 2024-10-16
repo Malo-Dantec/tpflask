@@ -27,6 +27,9 @@ class Author(db.Model):
     def __repr__ (self ):
         return "<Author (%d) %s>" % (self.id , self.name)
     
+
+    
+    
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     price = db.Column(db.Float)
@@ -45,4 +48,7 @@ def get_sample():
 
 def get_author(id):
     return Author.query.get(id)  # Utilisez .get() pour obtenir l'auteur par son ID
+
+def get_book(id):
+    return Book.query.get(id)  # Utilisez.get() pour obtenir le livre par son ID
 

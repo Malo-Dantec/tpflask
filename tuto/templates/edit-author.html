@@ -3,9 +3,9 @@
 {{ super() }}
 <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
 {% endblock %}
-{% block main %}
-  <h1>Edit author: {{ author.name }}</h1>
-  <form role="form" method="POST" action="{{ url_for('save_edit_author') }}">
+{% block content %}
+  <h1 id="auteur">Edit author: {{ author.name }}</h1>
+  <form id="StyleForm" role="form" method="POST" action="{{ url_for('save_edit_author') }}">
     {{ form.hidden_tag() }}
     <div class=
       {% if form.name.errors %}
@@ -25,6 +25,6 @@
       </ul>
     {% endif %}
 
-    <input class="btn btn-default" type="submit" value="Enregistrer">
+    <input lass="btn btn-outline-success" type="submit" value="Enregistrer">
   </form>
 {% endblock %}

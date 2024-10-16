@@ -72,7 +72,7 @@ def edit_author(id):
         "edit-author.html",
         author=a, form = f)
     
-@app.route("/save/edit/uthor/", methods =("POST" ,))
+@app.route("/save/edit/author/", methods =("POST" ,))
 def save_edit_author():
         a = None
         f = AuthorForm()
@@ -87,28 +87,24 @@ def save_edit_author():
             "edit-author.html",
             author =a, form=f)
 
-@app.route("/new-author/")
+@app.route("/new/author/")
+@login_required
 def new_author(id):
-    a = None
-    f = AuthorForm(a, name=a.name)
-    return render_template(
-        "new-author.html",
-        author=a, form=f
-    )
+    form = AuthorForm()
+    return render_template("new-author.html", form=form)
           
-@app.route("/save/new/author/", methods =("POST" ,))
+@app.route("/new/author/", methods =("POST" ,))
+@login_required
 def save_new_author():
-        a = None
-        f = AuthorForm()
-        if f.validate_on_submit():
-            a = get_author(id)
-            a.name = f.name.data
+        author = None
+        form = AuthorForm()
+        if form.validate_on_submit():
+            author = Auteur(name=form.name.data)
+            db.session.add(author)
             db.session.commit()
-            return redirect(url_for('sample', id=a.id))
-        a = get_author(int(f.id.data))
-        return render_template(
-            "new-author.html",
-            author =a, form=f)
+            return redirect(url_for('sample', id=author.id))
+        
+        return render_template("new-author.html", form = form)
 
         
 @app.route("/login/",methods=("GET","POST" ,))
