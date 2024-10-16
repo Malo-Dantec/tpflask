@@ -15,7 +15,7 @@
   <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
+        <a class="navbar-brand" href="#">La Bibliothèque</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -32,18 +32,20 @@
               <a class="nav-link disabled">Disabled</a>
             </li>
           </ul>
+          {% if current_user.is_authenticated %}
+            <span class="btn btn-outline-success">Signed in as {{ current_user.username }}</span>
+          {% else %}
+          {% endif %}
           <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input id="barRecherche" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button id="SearchBtn" class="btn btn-outline-success" type="submit">Search</button>
           </form>
           {% if current_user.is_authenticated %}
-        <button class="btn btn-outline-success">Profil</button>
-        <a href="{{ url_for('logout') }}" class="btn btn-warning">Se déconnecter</a>
-        {% else %}
-            <a href="{{ url_for('login') }}" class="btn btn-warning">Se connecter</a>
-            <a href="{{ url_for('register') }}" class="btn btn-secondary">S'inscrire</a>
-        {% endif %}
-        <button class="btn btn-outline-success"><a class="nav-link active" aria-current="page" href="/login/">Login</a></button>
+            <button id="BtnAuth" class="btn btn-outline-success"><a class="nav-link active" aria-current="page" href="/logout/">Logout</a></button>
+          {% else %}
+            <button id="BtnAuth" class="btn btn-outline-success"><a class="nav-link active" aria-current="page" href="/login/">Login</a></button>
+            
+          {% endif %}
         </div>
       </div>
     </nav>

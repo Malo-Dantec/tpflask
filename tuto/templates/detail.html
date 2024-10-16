@@ -4,17 +4,14 @@
 <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
 {% endblock %}
 {% block content %}
-    <div class='sample'>
+    <div id="DetailLivre">
         <h1>
-            
             {{b.title}}
-            <img src='{{ url_for('static', filename='images/'+b.image)}}'
+        </h1>
+        <img src='{{ url_for('static', filename='images/'+b.image)}}'
             alt = '{{b.title}}' title = '{{b.title}}'>
             <ul>
-                <li>Author: {{ b.author }}</li>
+                <li>Author: {{ b.author.name }}</li>
             </ul>
-
-        </h1>
-
     </div>
 {% endblock %}

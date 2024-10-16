@@ -30,10 +30,6 @@ class loginFrom(FlaskForm):
 class AuthorForm(FlaskForm):
     id = HiddenField('id')
     name = StringField('Nom', validators=[DataRequired()])
-    
-class AuthorAddForm(FlaskForm):
-    id = None
-    name = StringField('Nom', validators=[DataRequired()])
 
 @app.route ("/")
 def home():
@@ -76,8 +72,8 @@ def edit_author(id):
         "edit-author.html",
         author=a, form = f)
     
-@app.route("/save/author/", methods =("POST" ,))
-def save_author():
+@app.route("/save/edit/uthor/", methods =("POST" ,))
+def save_edit_author():
         a = None
         f = AuthorForm()
         if f.validate_on_submit():
@@ -90,21 +86,30 @@ def save_author():
         return render_template(
             "edit-author.html",
             author =a, form=f)
-        
-@app.route("/new/author/", methods =("POST" ,))
-def new_author():
+
+@app.route("/new-author/")
+def new_author(id):
+    a = None
+    f = AuthorForm(a, name=a.name)
+    return render_template(
+        "new-author.html",
+        author=a, form=f
+    )
+          
+@app.route("/save/new/author/", methods =("POST" ,))
+def save_new_author():
         a = None
-        f = AuthorAddForm()
+        f = AuthorForm()
         if f.validate_on_submit():
-            id = int(f.id.data)
             a = get_author(id)
             a.name = f.name.data
             db.session.commit()
             return redirect(url_for('sample', id=a.id))
         a = get_author(int(f.id.data))
         return render_template(
-            "edit-author.html",
+            "new-author.html",
             author =a, form=f)
+
         
 @app.route("/login/",methods=("GET","POST" ,))
 def login():
