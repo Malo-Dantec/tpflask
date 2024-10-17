@@ -3,16 +3,14 @@
   {{bootstrap.load_css()}}
   {% endblock %}
 {% block content %}
-  <h1>Edit author: </h1>
-  <form role="form" method="POST" action="{{ url_for('save_new_author') }}">
+  <form id="StyleForm" role="form" method="POST" action="{{ url_for('save_edit_author') }}">
     {{ form.hidden_tag() }}
-    <div class=
+    <div id="StyleForm" class=
       {% if form.name.errors %}
         "form-group has-error"
       {% else %}
         "form-group"
-      {% endif %}
-    >
+      {% endif %}>
       {{ form.name.label }} 
       {{ form.name(size=50, class_="form-control") }}
     </div>

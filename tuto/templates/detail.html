@@ -5,13 +5,17 @@
 {% endblock %}
 {% block content %}
     <div id="StyleForm">
-        <h1>
+        <h1 id="titreLivre">
             {{b.title}}
         </h1>
-        <img src='{{ url_for('static', filename='images/'+b.image)}}'
+        <ul>
+            <li id="infoLivre" >Author: {{ b.author.name }}</li>
+        </ul>
+        <ul>
+            <li id="infoLivre" >Price: {{ b.price }} €</li>
+        </ul>
+        <img id="imgLivre" src='{{ url_for('static', filename='images/'+b.image) }}'
             alt = '{{b.title}}' title = '{{b.title}}'>
-            <ul>
-                <li>Author: {{ b.author.name }}</li>
-            </ul>
+            
     </div>
 {% endblock %}

@@ -8,6 +8,7 @@ from flask import url_for, redirect
 from .app import db
 from wtforms import PasswordField
 from .models import User
+from .models import Author
 from hashlib import sha256
 from flask_login import login_user, current_user
 from flask import request
@@ -89,7 +90,7 @@ def save_edit_author():
 
 @app.route("/new/author/")
 @login_required
-def new_author(id):
+def new_author():
     form = AuthorForm()
     return render_template("new-author.html", form=form)
           
@@ -99,15 +100,16 @@ def save_new_author():
         author = None
         form = AuthorForm()
         if form.validate_on_submit():
-            author = Auteur(name=form.name.data)
+            author = Author(name=form.name.data)
             db.session.add(author)
             db.session.commit()
-            return redirect(url_for('sample', id=author.id))
+            return redirect(url_for('/', id=author.id))
         
         return render_template("new-author.html", form = form)
 
         
 @app.route("/login/",methods=("GET","POST" ,))
+@login_required
 def login():
     f = loginFrom()
     if not f.is_submitted():
