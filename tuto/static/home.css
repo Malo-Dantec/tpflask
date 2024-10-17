@@ -25,6 +25,13 @@ width: 100%;
     padding: 10px ;
 }
 
+#StyleForm2{
+    border: 3px solid rgba(0, 0, 0);
+    border-radius: 0 20px 0 20px;
+    padding: 10px ;
+    margin-top: 20px;
+}
+
 #SignAs{
     color: rgb(255, 255, 255);
     margin-right: 5px;
@@ -44,6 +51,14 @@ width: 100%;
     font-size: 1.5em;
     text-align: left;
     font-style: italic;
+}
+
+#BtnDelete{
+    margin: 20px;
+}
+
+#Deroulant{
+    margin: 20px;
 }
 
 main > .container {

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block styles %}
+  {{ bootstrap.load_css() }}
+{% endblock %}
+
+{% block content %}
+  <form id="StyleForm2" role="form" method="POST" action="{{ url_for('save_delete_author') }}">
+    {{ form.hidden_tag() }}
+    
+    <div class="{% if form.name.errors %}form-group has-error{% else %}form-group{% endif %}">
+      <select id="Deroulant" name="author" id="authorListe">
+        <option value="">--Please choose an option--</option>
+        {% for i in author.name %}
+          <option value="dog">{{ i }}</option>
+        {% endfor %}
+        
+      </select>
+    </div>
+    
+    {% if form.name.errors %}
+      <ul class="list-group">
+        {% for e in form.name.errors %}
+          <li class="list-group-item list-group-item-danger">{{ e }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    <input id="BtnDelete" class="btn btn-danger" type="submit" value="Supprimer">
+  </form>
+{% endblock %}

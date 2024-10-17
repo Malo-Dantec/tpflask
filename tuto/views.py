@@ -107,6 +107,31 @@ def save_new_author():
         
         return render_template("new-author.html", form = form)
 
+@app.route("/delete/author/")
+@login_required
+def delete_author():
+    form = AuthorForm()
+    a = Author.query.all()
+    form.name.choices = [(author.id, author.name) for author in a]
+    return render_template("delete-author.html", form=form)
+
+@app.route("/delete/author/", methods=("POST",))
+@login_required
+def save_delete_author():
+    form = AuthorForm()
+    authors = Author.query.all()
+    form.name.choices = [(author.id, author.name) for author in authors]
+
+    if form.validate_on_submit():
+        author_id = form.name.data
+        author = Author.query.get(author_id)
+        if author:
+            db.session.delete(author)
+            db.session.commit()
+            return redirect(url_for('/'))
+    return render_template("delete-author.html", form=form)
+
+
         
 @app.route("/login/",methods=("GET","POST" ,))
 @login_required
