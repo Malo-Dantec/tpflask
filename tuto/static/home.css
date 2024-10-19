@@ -78,6 +78,7 @@ width: 100%;
 
 #titreLivre {
     text-align: left; 
+    font-size: 3em;
 }
 
 #auteur{
@@ -87,8 +88,8 @@ width: 100%;
     font-style: italic;
 }
 
-#BtnDelete{
-    margin: 20px;
+#BtnSubmit{
+    margin-top: 10px;
 }
 
 #Deroulant{
@@ -99,6 +100,36 @@ width: 100%;
     margin-left: 19px;
     margin-right: 19px;
 }
+
+#StyleDivDetail {
+    border: 3px solid rgba(0, 0, 0);
+    border-radius: 0 20px 0 20px;
+    padding: 15px;
+    flex-grow: 1; 
+    position: relative;
+}
+
+#imgBtnLivre{
+    height: 50px;
+    width: auto;
+}
+
+#BtnEditLivre{
+    position:absolute;
+    bottom: 0;
+    left: 2;
+    margin-bottom: 10px;
+}
+
+#infoLivre{
+    color : black;
+    font-size: 1.5em;
+    text-align: left;
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
 
 main > .container {
     padding: 60px 15px 0;

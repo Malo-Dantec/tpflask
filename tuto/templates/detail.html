@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <section id="sectionDetail">
-    <div id="StyleDiv">
+    <div id="StyleDivDetail">
         <h1 id="titreLivre">
             {{b.title}}
         </h1>
@@ -14,10 +14,15 @@
         </ul>
         <ul>
             <li id="infoLivre" >Price: {{ b.price }} €</li>
-        </ul> 
+        </ul>
+        <button id="BtnEditLivre"type="button" class="btn btn-outline btn-custom">
+            <a class="nav-link active" aria-current="page" href="edit/book">
+                <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/edit.jpg')}}" alt="" title="editLivre">
+            </a>
+        </button>
     </div>
     <div>
-        <img id="imgLivre" src='{{ url_for('static', filename='static/images/'+b.image) }}'
+        <img id="imgLivre" src='{{ url_for('static', filename='/images/'+b.image) }}'
         alt = '{{b.title}}' title = '{{b.title}}'> 
     </div>
 </section>

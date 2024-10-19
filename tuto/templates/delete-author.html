@@ -13,8 +13,8 @@
     
     <select name="author" id="authorListe" class="form-control">
       <option value="">-- Sélectionnez un auteur --</option>
-      {% for author in form.author.choices %}
-        <option value="{{ author[0] }}">{{ author[1] }}</option>
+      {% for author in authors %}
+        <option value="{{ author[0] }}">{{ author.name }}</option>
       {% endfor %}
     </select>
   </div>
@@ -27,7 +27,7 @@
     </ul>
   {% endif %}
   
-  <input id="BtnDelete" class="btn btn-danger" type="submit" value="Supprimer">
+  <input id="BtnSubmit" class="btn btn-danger" type="submit" value="Supprimer">
 </form>
 
 

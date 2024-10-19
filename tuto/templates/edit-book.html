@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
+{% endblock %}
+{% block content %}
+  <h1 id="auteur">Edit book: {{ book.name }}</h1>
+  <form id="StyleForm" role="form" method="POST" action="{{ url_for('save_edit_book') }}">
+    {{ form.hidden_tag() }}
+    <div class=
+        {% if form.title.errors %}
+            "form-group has-error"
+        {% elif form.price.errors %}
+            "form-group has-error"
+        {% elif form.author.errors %}
+            "form-group has-error"
+        {% else %}
+            "form-group"
+        {% endif %}>
+        {{ form.title.label }} 
+        {{ form.title(size=50, class_="form-control") }}
+        {{ form.price.label }} 
+        {{ form.price(size=50, class_="form-control") }}
+        {{ form.author.label }}
+        {{ form.author(size=10, class_="form-control") }}
+    </div>
+
+    {% if form.title.errors %}
+      <ul class="list-group">
+        {% for e in form.title.errors %}
+          <li class="list-group-item list-group-item-danger">feur</li>
+        {% endfor %}
+      </ul>
+    {% elif form.price.errors %}
+      <ul class="list-group">
+        {% for e in form.price.errors %}
+          <li class="list-group-item list-group-item-danger">feur</li>
+        {% endfor %}
+      </ul>
+    {% elif form.author.errors %}
+      <ul class="list-group">
+        {% for e in form.author.errors %}
+          <li class="list-group-item list-group-item-danger">feur</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <input id="BtnSubmit" class="btn btn-success" type="submit" value="Enregistrer">
+  </form>
+{% endblock %}
