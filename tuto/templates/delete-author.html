@@ -1,32 +1,35 @@
 {% extends "base.html" %}
 {% block styles %}
-  {{ bootstrap.load_css() }}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
 {% endblock %}
 
 {% block content %}
-  <form id="StyleForm2" role="form" method="POST" action="{{ url_for('save_delete_author') }}">
-    {{ form.hidden_tag() }}
+<form id="StyleForm2" role="form" method="POST" action="{{ url_for('delete_author') }}">
+  {{ form.hidden_tag() }}
+  
+  <div class="{% if form.author.errors %}form-group has-error{% else %}form-group{% endif %}">
+    <label for="authorListe">Choisissez un auteur à supprimer :</label>
     
-    <div class="{% if form.name.errors %}form-group has-error{% else %}form-group{% endif %}">
-      <select id="Deroulant" name="author" id="authorListe">
-        <option value="">--Please choose an option--</option>
-        {% for i in books %}
-        <button type="button">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('detail', id=i.id-1) }}"><p>{{ i.name }}</p></a>
-        </button>
-        {% endfor %}
-        
-      </select>
-    </div>
-    
-    {% if form.name.errors %}
-      <ul class="list-group">
-        {% for e in form.name.errors %}
-          <li class="list-group-item list-group-item-danger">{{ e }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-    
-    <input id="BtnDelete" class="btn btn-danger" type="submit" value="Supprimer">
-  </form>
+    <select name="author" id="authorListe" class="form-control">
+      <option value="">-- Sélectionnez un auteur --</option>
+      {% for author in form.author.choices %}
+        <option value="{{ author[0] }}">{{ author[1] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  {% if form.author.errors %}
+    <ul class="list-group">
+      {% for e in form.author.errors %}
+        <li class="list-group-item list-group-item-danger">{{ e }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <input id="BtnDelete" class="btn btn-danger" type="submit" value="Supprimer">
+</form>
+
+
 {% endblock %}
+

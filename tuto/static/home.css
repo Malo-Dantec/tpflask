@@ -3,14 +3,17 @@ text-align: center;
 margin-left: 25%;
 margin-right: 25%;
 }
+
 main{
 margin-top: 8em;
 }
+
 footer{
 position: fixed;
 bottom: 0;
 width: 100%;
 }
+
 #barRecherche{
     margin: 0 10px 0 10px;
 }
@@ -22,14 +25,45 @@ width: 100%;
 #StyleForm{
     border: 3px solid rgba(0, 0, 0);
     border-radius: 0 20px 0 20px;
-    padding: 10px ;
+    padding: 15px ;
 }
 
-#StyleForm2{
+#StyleForm2 {
     border: 3px solid rgba(0, 0, 0);
     border-radius: 0 20px 0 20px;
     padding: 10px ;
     margin-top: 20px;
+}
+
+#sectionDetail {
+    display: flex;
+}
+
+#StyleDiv {
+    border: 3px solid rgba(0, 0, 0);
+    border-radius: 0 20px 0 20px;
+    padding: 15px;
+    flex-grow: 1; 
+}
+
+#StyleDiv h1{
+    color: black;
+    font-size: 3em;
+    text-align: left;
+}
+
+#StyleDiv ul{
+    color: black;
+    font-size: 1.7em;
+    text-align: left;
+    padding-left: 2cm;
+}
+
+#imgLivre {
+    height: 15cm;
+    width: auto;
+    margin-left: 15px;
+    flex-grow: 0;
 }
 
 #SignAs{
@@ -42,8 +76,8 @@ width: 100%;
     font-weight: bold;
 }
 
-#imgLivre{
-    margin-left: 90%;
+#titreLivre {
+    text-align: left; 
 }
 
 #auteur{
@@ -59,6 +93,11 @@ width: 100%;
 
 #Deroulant{
     margin: 20px;
+}
+
+#listeGroupeDelete{
+    margin-left: 19px;
+    margin-right: 19px;
 }
 
 main > .container {

@@ -6,7 +6,6 @@ from .app import login_manager
 def load_user(username):
     return User.query.get(username)
 
-
 class User(db.Model, UserMixin):
     username = db.Column(db.String(50), primary_key=True)
     password = db.Column(db.String(64))
@@ -17,19 +16,13 @@ class User(db.Model, UserMixin):
         else:
             raise AttributeError("L'objet n'est pas une instance de User.")
 
-    
-
-
 class Author(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     name = db.Column(db.String(100))
     
     def __repr__ (self ):
         return "<Author (%d) %s>" % (self.id , self.name)
-    
 
-    
-    
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     price = db.Column(db.Float)
@@ -40,11 +33,9 @@ class Book(db.Model):
     author = db.relationship("Author", backref=db.backref("books", lazy="dynamic"))
     def __repr__ (self):
         return "<Book (%d) %s>" % (self.id , self.title)
-    
 
 def get_sample():
     return Book.query.limit(10).all() 
-
 
 def get_author(id):
     return Author.query.get(id)  # Utilisez .get() pour obtenir l'auteur par son ID

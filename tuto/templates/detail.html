@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">
 {% endblock %}
 {% block content %}
-    <div id="StyleForm">
+<section id="sectionDetail">
+    <div id="StyleDiv">
         <h1 id="titreLivre">
             {{b.title}}
         </h1>
@@ -13,9 +14,11 @@
         </ul>
         <ul>
             <li id="infoLivre" >Price: {{ b.price }} €</li>
-        </ul>
-        <img id="imgLivre" src='{{ url_for('static', filename='images/'+b.image) }}'
-            alt = '{{b.title}}' title = '{{b.title}}'>
-            
+        </ul> 
     </div>
+    <div>
+        <img id="imgLivre" src='{{ url_for('static', filename='static/images/'+b.image) }}'
+        alt = '{{b.title}}' title = '{{b.title}}'> 
+    </div>
+</section>
 {% endblock %}

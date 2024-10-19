@@ -15,7 +15,7 @@ from flask import request
 from flask_login import logout_user
 from flask_login import login_required
 
-class loginFrom(FlaskForm):
+class loginForm(FlaskForm):
     username = StringField('Username')
     password = PasswordField('Password')
     next = HiddenField()
@@ -45,16 +45,7 @@ def show_name():
     return render_template(
         "home.html",
         title="name",
-        names=["Pierre", "Jean", "Axel"])
-    
-    
-@app.route ("/sample")
-def sample():
-    return render_template(
-        "home.html",
-        title="My Books !",
-        books=get_sample())
-    
+        names=["Pierre", "Jean", "Axel"]) 
     
 @app.route("/detail/<id>")
 def detail(id):
@@ -82,7 +73,7 @@ def save_edit_author():
             a = get_author(id)
             a.name = f.name.data
             db.session.commit()
-            return redirect(url_for('sample', id=a.id))
+            return redirect(url_for('home'))
         a = get_author(int(f.id.data))
         return render_template(
             "edit-author.html",
@@ -110,10 +101,10 @@ def save_new_author():
 @app.route("/delete/author/")
 @login_required
 def delete_author():
-    form = AuthorForm()
     a = Author.query.all()
+    form = AuthorForm()
     form.name.choices = [(author.id, author.name) for author in a]
-    return render_template("delete-author.html", form=form)
+    return render_template("delete-author.html", authors=a, form=form)
 
 @app.route("/delete/author/", methods=("POST",))
 @login_required
@@ -130,13 +121,10 @@ def save_delete_author():
             db.session.commit()
             return redirect(url_for('/'))
     return render_template("delete-author.html", form=form)
-
-
         
 @app.route("/login/",methods=("GET","POST" ,))
-@login_required
 def login():
-    f = loginFrom()
+    f = loginForm()
     if not f.is_submitted():
         f.next.data = request.args.get("next")
     elif f.validate_on_submit():
