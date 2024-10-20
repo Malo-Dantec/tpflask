@@ -10,22 +10,35 @@
             {{b.title}}
         </h1>
         <ul>
-            <li id="infoLivre" >Author: {{ b.author.name }}</li>
+            <li id="infoLivre" >Author: {{ form.name.data }}</li>
         </ul>
         <ul>
             <li id="infoLivre" >Price: {{ b.price }} €</li>
         </ul>
         {% if current_user.is_authenticated %}
             <button id="BtnEditLivre" type="button" class="btn btn-outline btn-custom">
-                <a class="nav-link active" aria-current="page" href="../edit-book/{{ b.id }}"+>
+                <a class="nav-link active" aria-current="page" href="/edit-book/{{ b.id }}"+>
                     <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/edit.png')}}" alt="" title="editLivre">
                 </a>
             </button>
             <button id="BtnDelLivre" type="button" class="btn btn-outline btn-custom">
-                <a class="nav-link active" aria-current="page" href="../delete/book/{{ b.id }}"+>
+                <a class="nav-link active" aria-current="page" href="/delete/book/{{ b.id }}">
                     <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/delete.png')}}" alt="" title="delLivre">
                 </a>
             </button>
+            {% if b in current_user.favoris %}
+                <form action="{{ url_for('remove_favorite', book_id=b.id) }}" method="POST" style="display:inline;">
+                    <button id="BtnFavLivre" type="submit" class="btn btn-outline btn-custom">
+                        <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/favoris_plein.png')}}" alt="" title="favLivre">
+                    </button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('add_favorite', book_id=b.id) }}" method="POST" style="display:inline;">
+                    <button id="BtnFavLivre" type="submit" class="btn btn-outline btn-custom">
+                        <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/favoris_vide.png')}}" alt="" title="favLivre">
+                    </button>
+                </form>
+            {% endif %}
         {% endif %}
     </div>
     <div>

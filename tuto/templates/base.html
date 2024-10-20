@@ -28,18 +28,19 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/list-author">Auteurs</a>
             </li>
+            {% if current_user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="favoris">Favoris</a>
+              <a class="nav-link active" aria-current="page" href="/favoris">Favoris</a>
             </li>
+            {% endif %}
           </ul>
           {% if current_user.is_authenticated %}
             <span id="SignAs" class="">Signed in as</span>    
             <span id="nomConnecte" class="">{{ current_user.username }}</span>           
-          {% else %}
           {% endif %}
           <form class="d-flex" role="search">
             <input id="barRecherche" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button id="SearchBtn" class="btn btn-outline-success" type="submit" href="search">Search</button>
+            <button id="SearchBtn" class="btn btn-outline-success" type="submit" href="/search">Search</button>
           </form>
           {% if current_user.is_authenticated %}
             <button id="BtnAuth" class="btn btn-outline-success"><a class="nav-link active" aria-current="page" href="/logout/">Logout</a></button>
@@ -55,7 +56,11 @@
       {% block content %}{% endblock %}
     </div>
   </main>
- 
+  <footer class="footer mt-auto py-3 bg-light fixed-bottom">
+    <div class="container">
+      <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+  </footer>
 
 
   {% block scripts %}

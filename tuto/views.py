@@ -1,6 +1,6 @@
 from .app import app
 from flask import render_template
-from .models import get_sample, get_author, get_book
+from .models import get_sample, get_author, get_book, get_book_from_author
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField
 from wtforms import SelectField
@@ -48,6 +48,10 @@ class DelBookForm(FlaskForm):
     title = HiddenField('Titre', validators=[DataRequired()])
     price = HiddenField('Prix', validators=[DataRequired()])
 
+class SearchForm(FlaskForm):
+    query = StringField('Recherche Auteur', validators=[DataRequired()])
+
+
 @app.route ("/")
 def home():
     return render_template(
@@ -62,26 +66,49 @@ def show_name():
         "home.html",
         title="name",
         names=["Pierre", "Jean", "Axel"]) 
-
-@app.route('/search', methods=['GET'])
+    
+@app.route("/search", methods=["GET"])
 def search():
-    recherche = request.args.get('query')
-    authors = Author.query.filter(Author.name.ilike(f'%{query}%')).all()
-    if authors:
-        author_id = [author.id for author in authors]
-        books = Book.query.filter(Book.author_id.in_(author_ids)).all()
-    else:
-        books = []
+    f = SearchForm()
+    search = request.args.get('search', '')
+    if search:
+        books = get_book_from_author(search)
+        return render_template("search.html", title=search, books=books, form=f)
+    
+@app.route('/add_favorite/<int:book_id>', methods=['POST'])
+@login_required
+def add_favorite(book_id):
+    book = Book.query.get(book_id)
+    if book and book not in current_user.favoris:
+        current_user.favoris.append(book)
+        db.session.commit()
+    return redirect(url_for('detail', id=book_id))
 
-    return render_template('Search.html', author=authors, books=books)
+@app.route('/remove_favorite/<int:book_id>', methods=['POST'])
+@login_required
+def remove_favorite(book_id):
+    book = Book.query.get(book_id)
+    if book in current_user.favoris:
+        current_user.favoris.remove(book)
+        db.session.commit()
+    return redirect(url_for('detail', id=book_id))
+
+@app.route('/favoris')
+@login_required
+def favorites():
+    favorite_books = current_user.favoris
+    return render_template('favoris.html', books=favorite_books)
     
 @app.route("/detail/<id>")
 def detail(id):
     books = get_sample()
     book = books[int(id)]
+    author = book.author_id
+    a = get_author(author)
+    f = AuthorForm(id=a.id, name=a.name)
     return render_template(
     "detail.html",
-    b=book)
+    b=book, form=f)
     
 @app.route("/list-author/")
 def author():
@@ -96,7 +123,7 @@ def new_author():
     form = AuthorForm()
     return render_template("new-author.html", form=form)
           
-@app.route("/new/author/", methods =("POST" ,))
+@app.route("/new/author/", methods =["POST"])
 @login_required
 def save_new_author():
         author = None
@@ -118,7 +145,7 @@ def edit_author(id):
         "edit-author.html",
         author=a, form = f)
     
-@app.route("/save/edit/author/", methods =("POST" ,))
+@app.route("/save/edit/author/", methods =["POST"])
 def save_edit_author():
         a = None
         f = AuthorForm()
@@ -140,7 +167,7 @@ def delete_author(id):
     form = DelAuthorForm(id=a.id, name=a.name)
     return render_template("delete-author.html", author=a, form=form)
 
-@app.route("/save/delete/author/", methods=("POST",))
+@app.route("/save/delete/author/", methods=["POST"])
 @login_required
 def save_delete_author():
     a = None
@@ -163,7 +190,7 @@ def edit_book(id):
         "edit-book.html",
         book = b, form = f)
     
-@app.route("/save/edit/book/", methods =("POST" ,))
+@app.route("/save/edit/book/", methods =["POST"])
 def save_edit_book():
         b = None
         f = NewBookForm()
@@ -186,7 +213,7 @@ def delete_book(id):
     form = DelBookForm(id=b.id, title=b.title, price=b.price)
     return render_template("delete-book.html", book=b, form=form)
 
-@app.route("/save/delete/book/", methods=("POST",))
+@app.route("/save/delete/book/", methods=["POST"])
 @login_required
 def save_delete_book():
     b = None
