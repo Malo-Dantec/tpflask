@@ -8,7 +8,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 ```
-flask loaddb myapp/data.yml
+flask loaddb tuto/data.yml
+```
+```
+flask newuser identifiant mdp
+```
+```
+Si vous voulez changer votre mot de passe : flask passwd identifiant nouveau_mdp
 ```
 ```
 flask syncdb
