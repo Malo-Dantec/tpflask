@@ -109,16 +109,23 @@ width: 100%;
     position: relative;
 }
 
-#imgBtnLivre{
-    height: 50px;
-    width: auto;
-}
-
 #BtnEditLivre{
     position:absolute;
     bottom: 0;
     left: 2;
     margin-bottom: 10px;
+}
+
+#BtnDelLivre{
+    position:absolute;
+    bottom: 0;
+    left: 7%;
+    margin-bottom: 9px;
+}
+
+#imgBtnLivre{
+    height: 50px;
+    width: auto;
 }
 
 #infoLivre{
@@ -129,6 +136,52 @@ width: 100%;
     margin-left: 15px;
 }
 
+.card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 500px;
+    margin-left: 100px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    color: #333;
+}
+
+#AuthorDivBtn{
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Aligne verticalement les éléments *//* Ajustez la largeur si nécessaire */
+    margin-bottom: 10px;
+    position: relative;; 
+}
+
+#BtnEditAuthor{
+    position: absolute;
+    right: 0;
+}
+
+#BtnDelAuthor{
+    position: absolute;
+    right: 15%;
+}
+
+#imgBtnAuthor{
+    height: 50px;
+    width: auto;
+}
+
+#BtnAuthorAction{
+    height: 50px;
+    width: auto;
+}
 
 
 main > .container {

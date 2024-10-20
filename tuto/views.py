@@ -33,17 +33,20 @@ class loginForm(FlaskForm):
 class AuthorForm(FlaskForm):
     id = HiddenField('id')
     name = StringField('Nom', validators=[DataRequired()])
-    author = SelectField('Choisir un auteur', validators=[DataRequired()])
     
-class NewAuthorForm(FlaskForm):
+class DelAuthorForm(FlaskForm):
     id = HiddenField('id')
-    name = StringField('Nom', validators=[DataRequired()])
+    name = HiddenField('Nom', validators=[DataRequired()])
     
 class NewBookForm(FlaskForm):
     id = HiddenField('id')
-    price = StringField('Prix', validators=[DataRequired()])
     title = StringField('Titre', validators=[DataRequired()])
-    author = SelectField('Auteur', validators=[DataRequired()])
+    price = StringField('Prix', validators=[DataRequired()])
+
+class DelBookForm(FlaskForm):
+    id = HiddenField('id')
+    title = HiddenField('Titre', validators=[DataRequired()])
+    price = HiddenField('Prix', validators=[DataRequired()])
 
 @app.route ("/")
 def home():
@@ -59,6 +62,18 @@ def show_name():
         "home.html",
         title="name",
         names=["Pierre", "Jean", "Axel"]) 
+
+@app.route('/search', methods=['GET'])
+def search():
+    recherche = request.args.get('query')
+    authors = Author.query.filter(Author.name.ilike(f'%{query}%')).all()
+    if authors:
+        author_id = [author.id for author in authors]
+        books = Book.query.filter(Book.author_id.in_(author_ids)).all()
+    else:
+        books = []
+
+    return render_template('Search.html', author=authors, books=books)
     
 @app.route("/detail/<id>")
 def detail(id):
@@ -68,11 +83,37 @@ def detail(id):
     "detail.html",
     b=book)
     
+@app.route("/list-author/")
+def author():
+    authors = Author.query.all()
+    return render_template(
+    "listeAuthor.html",
+    author=authors)
+
+@app.route("/new/author/")
+@login_required
+def new_author():
+    form = AuthorForm()
+    return render_template("new-author.html", form=form)
+          
+@app.route("/new/author/", methods =("POST" ,))
+@login_required
+def save_new_author():
+        author = None
+        form = AuthorForm()
+        if form.validate_on_submit():
+            author = Author(name=form.name.data)
+            db.session.add(author)
+            db.session.commit()
+            return redirect(url_for('home', id=author.id))
+        
+        return render_template("new-author.html", form = form)
+        
 @app.route("/edit-author/<int:id>")
 @login_required
 def edit_author(id):
     a = get_author(id)
-    f = NewAuthorForm(id=a.id, name=a.name)
+    f = AuthorForm(id=a.id, name=a.name)
     return render_template(
         "edit-author.html",
         author=a, form = f)
@@ -80,7 +121,7 @@ def edit_author(id):
 @app.route("/save/edit/author/", methods =("POST" ,))
 def save_edit_author():
         a = None
-        f = NewAuthorForm()
+        f = AuthorForm()
         if f.validate_on_submit():
             id = int(f.id.data)
             a = get_author(id)
@@ -92,55 +133,32 @@ def save_edit_author():
             "edit-author.html",
             author =a, form=f)
 
-@app.route("/new/author/")
+@app.route("/delete/author/<int:id>")
 @login_required
-def new_author():
-    form = NewAuthorForm()
-    return render_template("new-author.html", form=form)
-          
-@app.route("/new/author/", methods =("POST" ,))
-@login_required
-def save_new_author():
-        author = None
-        form = NewAuthorForm()
-        if form.validate_on_submit():
-            author = Author(name=form.name.data)
-            db.session.add(author)
-            db.session.commit()
-            return redirect(url_for('/', id=author.id))
-        
-        return render_template("new-author.html", form = form)
+def delete_author(id):
+    a = get_author(id)
+    form = DelAuthorForm(id=a.id, name=a.name)
+    return render_template("delete-author.html", author=a, form=form)
 
-@app.route("/delete/author/")
-@login_required
-def delete_author():
-    a = Author.query.all()
-    form = AuthorForm()
-    form.name.choices = [(author.id, author.name) for author in a]
-    return render_template("delete-author.html", authors=a, form=form)
-
-@app.route("/delete/author/", methods=("POST",))
+@app.route("/save/delete/author/", methods=("POST",))
 @login_required
 def save_delete_author():
-    form = AuthorForm()
-    authors = Author.query.all()
-    form.name.choices = [(author.id, author.name) for author in authors]
-    author_id = form.id.data
-    
+    a = None
+    form = DelAuthorForm()
     if form.validate_on_submit():
-        
-        author = Author.query.get(author_id)
-        if author:
-            db.session.delete(author)
+        id = int(form.id.data)
+        a = get_author(id)
+        if a:
+            db.session.delete(a)
             db.session.commit()
-            return redirect(url_for('/'))
-    return render_template("delete-author.html", form=form)
+            return redirect(url_for('home'))
+    return render_template("delete-author.html", form=form, author=a)
 
 @app.route("/edit-book/<int:id>")
 @login_required
 def edit_book(id):
     b = get_book(id)
-    f = NewBookForm(id=b.id, price=b.price, title=b.title, author=b.author)
+    f = NewBookForm(id=b.id, title=b.title, price=b.price)
     return render_template(
         "edit-book.html",
         book = b, form = f)
@@ -151,16 +169,36 @@ def save_edit_book():
         f = NewBookForm()
         if f.validate_on_submit():
             id = int(f.id.data)
-            b = get_author(id)
-            b.price = f.price.data
+            b = get_book(id)
             b.title = f.title.data
-            b.author = f.author.data
+            b.price = f.price.data
             db.session.commit()
             return redirect(url_for('home'))
-        a = get_author(int(f.id.data))
+        a = get_book(int(f.id.data))
         return render_template(
             "edit-book.html",
-            author =a, form=f)
+            book = b, form=f)
+        
+@app.route("/delete/book/<int:id>")
+@login_required
+def delete_book(id):
+    b = get_book(id)
+    form = DelBookForm(id=b.id, title=b.title, price=b.price)
+    return render_template("delete-book.html", book=b, form=form)
+
+@app.route("/save/delete/book/", methods=("POST",))
+@login_required
+def save_delete_book():
+    b = None
+    form = DelBookForm()
+    if form.validate_on_submit():
+        id = int(form.id.data)
+        b = get_book(id)
+        if b:
+            db.session.delete(b)
+            db.session.commit()
+            return redirect(url_for('home'))
+    return render_template("delete-book.html", form=form, book=b)
         
 @app.route("/login/",methods=("GET","POST" ,))
 def login():

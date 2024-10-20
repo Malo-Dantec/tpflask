@@ -12,8 +12,6 @@
             "form-group has-error"
         {% elif form.price.errors %}
             "form-group has-error"
-        {% elif form.author.errors %}
-            "form-group has-error"
         {% else %}
             "form-group"
         {% endif %}>
@@ -21,8 +19,6 @@
         {{ form.title(size=50, class_="form-control") }}
         {{ form.price.label }} 
         {{ form.price(size=50, class_="form-control") }}
-        {{ form.author.label }}
-        {{ form.author(size=10, class_="form-control") }}
     </div>
 
     {% if form.title.errors %}
@@ -34,12 +30,6 @@
     {% elif form.price.errors %}
       <ul class="list-group">
         {% for e in form.price.errors %}
-          <li class="list-group-item list-group-item-danger">feur</li>
-        {% endfor %}
-      </ul>
-    {% elif form.author.errors %}
-      <ul class="list-group">
-        {% for e in form.author.errors %}
           <li class="list-group-item list-group-item-danger">feur</li>
         {% endfor %}
       </ul>

@@ -15,11 +15,18 @@
         <ul>
             <li id="infoLivre" >Price: {{ b.price }} €</li>
         </ul>
-        <button id="BtnEditLivre"type="button" class="btn btn-outline btn-custom">
-            <a class="nav-link active" aria-current="page" href="edit/book">
-                <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/edit.jpg')}}" alt="" title="editLivre">
-            </a>
-        </button>
+        {% if current_user.is_authenticated %}
+            <button id="BtnEditLivre" type="button" class="btn btn-outline btn-custom">
+                <a class="nav-link active" aria-current="page" href="../edit-book/{{ b.id }}"+>
+                    <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/edit.png')}}" alt="" title="editLivre">
+                </a>
+            </button>
+            <button id="BtnDelLivre" type="button" class="btn btn-outline btn-custom">
+                <a class="nav-link active" aria-current="page" href="../delete/book/{{ b.id }}"+>
+                    <img id="imgBtnLivre" src="{{ url_for('static', filename='images/icons/delete.png')}}" alt="" title="delLivre">
+                </a>
+            </button>
+        {% endif %}
     </div>
     <div>
         <img id="imgLivre" src='{{ url_for('static', filename='/images/'+b.image) }}'

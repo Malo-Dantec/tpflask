@@ -7,12 +7,11 @@
 <h1>Ma Bibliothèque :</h>
     <div class="sample">
         {% for x in books %}
-        <button type="button">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('detail', id=x.id-1) }}">
-                <img src="{{ url_for('static', filename='images/'+x.image)}}" alt="{{x.title}}" title="{{x.title}}">
-            </a>
-        </button>
-            
+            <button type="button">
+                <a class="nav-link active" aria-current="page" href="{{ url_for('detail', id=x.id-1) }}">
+                    <img src="{{ url_for('static', filename='images/'+x.image)}}" alt="{{x.title}}" title="{{x.title}}">
+                </a>
+            </button>   
         {% endfor %}
     </div>
 {% endblock %}  

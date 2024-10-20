@@ -26,7 +26,10 @@
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Favoris</a>
+              <a class="nav-link active" aria-current="page" href="/list-author">Auteurs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="favoris">Favoris</a>
             </li>
           </ul>
           {% if current_user.is_authenticated %}
@@ -36,7 +39,7 @@
           {% endif %}
           <form class="d-flex" role="search">
             <input id="barRecherche" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button id="SearchBtn" class="btn btn-outline-success" type="submit">Search</button>
+            <button id="SearchBtn" class="btn btn-outline-success" type="submit" href="search">Search</button>
           </form>
           {% if current_user.is_authenticated %}
             <button id="BtnAuth" class="btn btn-outline-success"><a class="nav-link active" aria-current="page" href="/logout/">Logout</a></button>
