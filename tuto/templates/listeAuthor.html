@@ -19,7 +19,7 @@
                     <h5 id="NomAuthor" class="card-title">{{ a.name }}</h5>
                     {% if current_user.is_authenticated %}
                         <button id="BtnEditAuthor" type="button" class="btn btn-outline btn-white">
-                            <a class="nav-link active" aria-current="page" href="/edit-author{{ a.id }}">
+                            <a class="nav-link active" aria-current="page" href="/edit-author/{{ a.id }}">
                                 <img id="imgBtnAuthor" src="{{ url_for('static', filename='images/icons/edit.png') }}" alt="" title="editAuthor" style="">
                             </a>
                         </button>

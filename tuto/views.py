@@ -132,7 +132,7 @@ def save_new_author():
             author = Author(name=form.name.data)
             db.session.add(author)
             db.session.commit()
-            return redirect(url_for('home', id=author.id))
+            return redirect(url_for('author', id=author.id))
         
         return render_template("new-author.html", form = form)
         
@@ -154,7 +154,7 @@ def save_edit_author():
             a = get_author(id)
             a.name = f.name.data
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('author'))
         a = get_author(int(f.id.data))
         return render_template(
             "edit-author.html",
@@ -178,7 +178,7 @@ def save_delete_author():
         if a:
             db.session.delete(a)
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('author'))
     return render_template("delete-author.html", form=form, author=a)
 
 @app.route("/edit-book/<int:id>")
